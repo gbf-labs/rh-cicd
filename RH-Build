@@ -1,0 +1,28 @@
+#!/bin/bash
+
+dir=/home/uwdev/qa_folder/jen_test
+
+cd /home/uwdev/qa_folder
+
+rm -rf jen_test/
+
+mkdir $dir
+
+cd $dir
+
+docker network prune -f
+docker service rm $(docker service ls -q)
+docker container stop $(docker container ls -aq)
+docker container rm $(docker container ls -aq)
+docker image rm $(docker image ls -aq)
+docker rmi $(docker images -q) -f
+
+git clone git@10.8.2.5:penn/apiv1.git
+git clone git@10.8.2.5:rh-monitoring/rh-webui.git
+
+
+rm -rf rh-webui/src/variables/constants.jsx
+cp ../../config_files/constants.jsx rh-webui/src/variables/constants.jsx
+
+cp -r ../../config_files/config apiv1/config
+cp -r ../../config_files/secrets apiv1/secrets

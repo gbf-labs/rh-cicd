@@ -1,0 +1,17 @@
+#!/bin/bash
+
+dir=/home/uwdev/qa_folder/jen_test
+
+cd $dir/rh-webui
+
+npm install
+
+sudo npm install && sudo npm install --g cross-env
+
+npm test
+
+dir=/home/uwdev/qa_folder/jen_test
+
+cd $dir
+
+pylint3 --reports=yes --disable=R,I apiv1

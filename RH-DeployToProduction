@@ -1,0 +1,52 @@
+#!/bin/bash
+
+dir=/home/uwdev/qa_folder/jen_test
+
+
+# API
+cd $dir/apiv1
+
+apiversion=`cat VERSION`
+
+docker tag rhapi:latest git.rhbox.io:5000/rhapi:latest
+
+docker push git.rhbox.io:5000/rhapi:latest
+
+docker tag rhapi:latest git.rhbox.io:5000/rhapi:$apiversion
+
+docker push git.rhbox.io:5000/rhapi:$apiversion
+
+
+# WEB
+cd $dir/rh-webui
+
+webversion=`cat VERSION`
+
+docker tag rhweb:latest git.rhbox.io:5000/rhweb:latest
+
+docker push git.rhbox.io:5000/rhweb:latest
+
+docker tag rhweb:latest git.rhbox.io:5000/rhweb:$webversion
+
+docker push git.rhbox.io:5000/rhweb:$webversion
+
+
+
+# API
+cd $dir/apiv1
+
+ssh uapro@172.25.144.56 'cd /home/uapro/jen_prod/api-prod;rm VERSION'
+
+scp VERSION uapro@172.25.144.56:/home/uapro/jen_prod/api-prod/VERSION
+
+ssh uapro@172.25.144.56 'cd /home/uapro/jen_prod/api-prod;sed -i 's/\r$//' run.sh;sh run.sh'
+
+
+# WEB
+cd $dir/rh-webui
+
+ssh uapro@172.25.143.16 'cd /home/uwpro/jen_prod/web-prod;rm VERSION'
+
+scp VERSION uapro@172.25.143.16:/home/uwpro/jen_prod/web-prod/VERSION
+
+ssh uapro@172.25.144.56 'cd /home/uwpro/jen_prod/web-prod;sed -i 's/\r$//' run.sh;sh run.sh'

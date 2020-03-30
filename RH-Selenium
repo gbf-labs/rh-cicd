@@ -1,0 +1,13 @@
+#!/bin/bash
+
+dir=/home/uwdev/qa_folder/jen_test
+
+cd $dir
+
+git clone git@10.8.2.5:penn/rh_web_test.git
+
+cp -r /home/uwdev/config_files/config3 /home/uwdev/qa_folder/jen_test/rh_web_test/config
+
+cd $dir/rh_web_test
+
+behave --tags=all

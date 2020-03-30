@@ -1,0 +1,11 @@
+#!/bin/bash
+
+dir=/home/uwdev/qa_folder/jen_test
+
+cd $dir/apiv1
+
+docker-compose -f docker-compose.yml up -d
+
+cd $dir/rh-webui
+
+docker-compose -f docker-compose.yml up -d
